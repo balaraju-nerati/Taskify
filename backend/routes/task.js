@@ -7,11 +7,6 @@ router.post("/create-task",authenticateToken, async(req,res)=>{
     try {
         const { title, description } = req.body;
         const { id } = req.headers;
-        const newTask = new Task({
-            title,
-            description
-        });
-        // const saveTask = await newTask.save();
         const taskDetails = await Task.create({
             title,
             description
@@ -72,7 +67,7 @@ router.put("/update-imp-task/:id",authenticateToken, async(req,res)=>{
         const { id } = req.params;
         const taskData= await Task.findById(id);
         const impTask = taskData.important;
-        await Task.findByIdAndUpdate(id, {important: !impTask})
+        await Task.findByIdAndUpdate(id, { important: !impTask})
         res.status(200).json({ important: !impTask})
     } catch (error) {
         console.log(error);
@@ -87,7 +82,7 @@ router.put("/update-complete-task/:id",authenticateToken, async(req,res)=>{
         const taskData= await Task.findById(id);
         const completeTask = taskData.complete;
         await Task.findByIdAndUpdate(id, {complete: !completeTask})
-        res.status(200).json({ important: !impTask})
+        res.status(200).json({ message: "Task updated successfully"})
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: "Internal server error"})
